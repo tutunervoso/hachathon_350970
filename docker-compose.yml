@@ -1,0 +1,30 @@
+services:
+  app_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - springapimysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://db:3306/hackathon_350970?allowPublicKeyRetrieval=true
+    depends_on:
+      - db
+    volumes:
+      - .m2:/root/.m2
+
+  db:
+    image: "mysql:latest"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - springapimysql-net
+    environment:
+      MYSQL_DATABASE: hackathon_350970
+      MYSQL_USER: teste
+      MYSQL_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: 12345
+
+networks:
+  springapimysql-net:
